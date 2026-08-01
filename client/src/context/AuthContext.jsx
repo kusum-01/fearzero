@@ -18,8 +18,10 @@ export const AuthProvider = ({ children }) => {
         const { data } = await api.get('/auth/me');
         setUser(data.data);
       } catch (error) {
-        localStorage.removeItem('token');
-        setUser(null);
+        if (error.response?.status === 401) {
+          // Token is genuinely invalid/expired — log out
+          localStorage.removeItem('token');
+          setUser(null);}
       } finally {
         setLoading(false);
       }
