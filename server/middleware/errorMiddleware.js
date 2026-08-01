@@ -7,6 +7,15 @@ export const notFound = (req, res, next) => {
 export const errorHandler = (err, req, res, next) => {
   console.error('ERROR:', err);
   let statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+
+  if (err.name === 'MulterError') {
+    statusCode = 400;
+    if (err.code === 'LIMIT_FILE_SIZE') {
+      err.message = 'File size must be under 5MB';
+    }
+  }
+
+
   let message = err.message;
 
   if (err.name === 'CastError' && err.kind === 'ObjectId') {
