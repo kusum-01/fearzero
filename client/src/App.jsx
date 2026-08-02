@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import ResumeUpload from './pages/ResumeUpload';
+import ResumeAnalysis from './pages/ResumeAnalysis';
 
 function App() {
   return (
@@ -26,6 +27,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <ResumeUpload />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/resume/analysis"
+            element={
+              <ProtectedRoute>
+                <ResumeAnalysis />
               </ProtectedRoute>
             }
           />
