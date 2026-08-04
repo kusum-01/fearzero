@@ -7,6 +7,7 @@ import dashboardRoutes from './routes/dashboardRoutes.js';
 import resumeRoutes from './routes/resumeRoutes.js';
 import analysisRoutes from './routes/analysisRoutes.js';
 import interviewRoutes from './routes/interviewRoutes.js';
+import gdRoutes from './routes/gdRoutes.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 
 dotenv.config();
@@ -25,6 +26,7 @@ app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/resume', resumeRoutes);
 app.use('/api/analysis', analysisRoutes);
 app.use('/api/interview', interviewRoutes);
+app.use('/api/gd', gdRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

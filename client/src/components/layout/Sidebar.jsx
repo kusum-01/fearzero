@@ -5,6 +5,7 @@ const navItems = [
   { label: 'Resume', path: '/resume', icon: '📄' },
   { label: 'Resume Analysis', path: '/resume/analysis', icon: '🧠' },
   { label: 'HR Interview', path: '/interview', icon: '💬' },
+  { label: 'Group Discussion', path: '/gd', icon: '👥' },
   { label: 'Practice Tests', path: '/tests', icon: '📝' },
   { label: 'Profile', path: '/profile', icon: '👤' },
 ];

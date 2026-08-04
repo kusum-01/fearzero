@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard';
 import ResumeUpload from './pages/ResumeUpload';
 import ResumeAnalysis from './pages/ResumeAnalysis';
 import HrInterview from './pages/HrInterview';
+import GroupDiscussion from './pages/GroupDiscussion';
 
 function App() {
   return (
@@ -44,6 +45,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <HrInterview />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/gd"
+            element={
+              <ProtectedRoute>
+                <GroupDiscussion />
               </ProtectedRoute>
             }
           />
