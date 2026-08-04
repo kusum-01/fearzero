@@ -8,6 +8,7 @@ import ResumeUpload from './pages/ResumeUpload';
 import ResumeAnalysis from './pages/ResumeAnalysis';
 import HrInterview from './pages/HrInterview';
 import GroupDiscussion from './pages/GroupDiscussion';
+import ProgressAnalytics from './pages/ProgressAnalytics';
 
 function App() {
   return (
@@ -53,6 +54,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <GroupDiscussion />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/progress"
+            element={
+              <ProtectedRoute>
+                <ProgressAnalytics />
               </ProtectedRoute>
             }
           />
