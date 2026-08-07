@@ -1,6 +1,9 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
+import { sanitizeInput } from './middleware/sanitizeMiddleware.js';
 import connectDB from './config/db.js';
 import authRoutes from './routes/authRoutes.js';
 import dashboardRoutes from './routes/dashboardRoutes.js';
@@ -11,12 +14,37 @@ import gdRoutes from './routes/gdRoutes.js';
 import analyticsRoutes from './routes/analyticsRoutes.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 
+
 dotenv.config();
 connectDB();
 
 const app = express();
-app.use(cors());
-app.use(express.json());
+
+// Security middleware
+app.use(helmet());
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL || 'http://localhost:5173',
+    credentials: true,
+  })
+);
+app.use(express.json({ limit: '10kb' }));
+app.use(sanitizeInput);
+
+// Rate limiting — protects auth routes from brute-force attempts
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 20,
+  message: { success: false, message: 'Too many attempts, please try again later.' },
+});
+app.use('/api/auth', authLimiter);
+
+// General API rate limit
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 200,
+});
+app.use('/api', apiLimiter);
 
 app.get('/', (req, res) => {
   res.send('Server is running');
