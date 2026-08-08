@@ -1,17 +1,15 @@
-const ReadinessScoreCard = ({ score }) => {
-  const color = score >= 75 ? 'text-green-600' : score >= 50 ? 'text-yellow-600' : 'text-red-500';
+import ScoreRing from '../analysis/ScoreRing';
 
-  return (
-    <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 flex items-center gap-6">
-      <div className={`text-5xl font-bold ${color}`}>{score}</div>
-      <div>
-        <p className="text-sm font-semibold text-gray-700">Placement Readiness Score</p>
-        <p className="text-xs text-gray-500 mt-1">
-          Based on your latest Resume, HR Interview, and GD performance.
-        </p>
-      </div>
+const ReadinessScoreCard = ({ score }) => (
+  <div className="bg-white rounded-2xl border border-[#E5E7EB] shadow-sm p-6 flex items-center gap-6">
+    <ScoreRing label="" score={score} />
+    <div>
+      <p className="text-sm font-semibold text-[#111827]">Placement Readiness Score</p>
+      <p className="text-xs text-[#6B7280] mt-1">
+        Based on your latest Resume, HR Interview, and GD performance.
+      </p>
     </div>
-  );
-};
+  </div>
+);
 
 export default ReadinessScoreCard;

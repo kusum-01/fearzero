@@ -5,6 +5,7 @@ import UploadDropzone from '../components/resume/UploadDropzone';
 import ResumeCard from '../components/resume/ResumeCard';
 import Loader from '../components/ui/Loader';
 import ErrorMessage from '../components/ui/ErrorMessage';
+import Alert from '../components/ui/Alert';
 
 const ACCEPTED_TYPES = [
   'application/pdf',
@@ -40,14 +41,11 @@ const ResumeUpload = () => {
   const uploadFile = async (file) => {
     const formData = new FormData();
     formData.append('resume', file);
-
     try {
       setUploadProgress(0);
       const { data } = await api.post('/resume/upload', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
-        onUploadProgress: (e) => {
-          setUploadProgress(Math.round((e.loaded * 100) / e.total));
-        },
+        onUploadProgress: (e) => setUploadProgress(Math.round((e.loaded * 100) / e.total)),
       });
       setResume(data.data);
       setSuccessMsg('Resume uploaded successfully.');
@@ -73,7 +71,6 @@ const ResumeUpload = () => {
     setUploadError(null);
     const file = e.target.files[0];
     if (!file) return;
-
     if (!ACCEPTED_TYPES.includes(file.type)) {
       setUploadError('Only PDF, DOC, or DOCX files are allowed.');
       return;
@@ -83,7 +80,7 @@ const ResumeUpload = () => {
       return;
     }
     uploadFile(file);
-    e.target.value = ''; // reset so selecting the same file again still fires onChange
+    e.target.value = '';
   };
 
   const handleDelete = async () => {
@@ -120,31 +117,22 @@ const ResumeUpload = () => {
   return (
     <DashboardLayout>
       <section className="mb-6">
-        <h1 className="text-xl font-semibold text-gray-800">Resume</h1>
-        <p className="text-sm text-gray-500 mt-1">Upload your resume in PDF, DOC, or DOCX format.</p>
+        <h1 className="text-2xl font-semibold text-[#111827]">Resume</h1>
+        <p className="text-sm text-[#6B7280] mt-1">Upload your resume in PDF, DOC, or DOCX format.</p>
       </section>
 
-      {successMsg && (
-        <div className="mb-4 px-4 py-2 bg-green-50 border border-green-200 text-green-700 text-sm rounded-md">
-          {successMsg}
-        </div>
-      )}
-
-      {uploadError && (
-        <div className="mb-4 px-4 py-2 bg-red-50 border border-red-200 text-red-600 text-sm rounded-md">
-          {uploadError}
-        </div>
-      )}
+      {successMsg && <Alert variant="success">{successMsg}</Alert>}
+      {uploadError && <Alert variant="error">{uploadError}</Alert>}
 
       {uploadProgress !== null && (
         <div className="mb-4">
-          <div className="w-full bg-gray-100 rounded-full h-2">
+          <div className="w-full bg-[#F3F4F6] rounded-full h-2 overflow-hidden">
             <div
-              className="bg-blue-600 h-2 rounded-full transition-all"
+              className="bg-[#EC4899] h-2 rounded-full transition-all duration-300 ease-out"
               style={{ width: `${uploadProgress}%` }}
             />
           </div>
-          <p className="text-xs text-gray-500 mt-1">{uploadProgress}% uploaded</p>
+          <p className="text-xs text-[#6B7280] mt-1.5">{uploadProgress}% uploaded</p>
         </div>
       )}
 

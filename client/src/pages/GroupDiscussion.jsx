@@ -5,12 +5,14 @@ import GdTypingIndicator from '../components/gd/GdTypingIndicator';
 import DiscussionTimer from '../components/gd/DiscussionTimer';
 import GdSummarySection from '../components/gd/GdSummarySection';
 import Loader from '../components/ui/Loader';
+import Button from '../components/ui/Button';
+import Alert from '../components/ui/Alert';
 import api from '../api/axios';
 
 const DIFFICULTIES = ['Easy', 'Medium', 'Hard'];
 
 const GroupDiscussion = () => {
-  const [stage, setStage] = useState('setup'); // setup | chatting | ending | summary
+  const [stage, setStage] = useState('setup');
   const [difficulty, setDifficulty] = useState('Medium');
   const [topics, setTopics] = useState([]);
   const [selectedTopic, setSelectedTopic] = useState('');
@@ -119,29 +121,29 @@ const GroupDiscussion = () => {
     return (
       <DashboardLayout>
         <div className="max-w-xl mx-auto">
-          <h1 className="text-xl font-semibold text-gray-800 mb-1">Group Discussion Simulator</h1>
-          <p className="text-sm text-gray-500 mb-6">
+          <h1 className="text-2xl font-semibold text-[#111827] mb-1">Group Discussion Simulator</h1>
+          <p className="text-sm text-[#6B7280] mb-6">
             Practice with 3 AI participants and a moderator on a realistic GD topic.
           </p>
 
-          {error && <p className="text-sm text-red-500 mb-4">{error}</p>}
+          {error && <Alert variant="error">{error}</Alert>}
 
-          <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
-            <p className="text-sm font-medium text-gray-700 mb-2">Difficulty</p>
+          <div className="bg-white rounded-2xl border border-[#E5E7EB] shadow-sm p-6">
+            <p className="text-sm font-medium text-[#111827] mb-2.5">Difficulty</p>
             <div className="flex gap-2 mb-6">
               {DIFFICULTIES.map((level) => (
                 <button
                   key={level}
                   onClick={() => handleDifficultyChange(level)}
-                  className={`px-4 py-1.5 rounded-full text-sm font-medium border
-                  ${difficulty === level ? 'bg-blue-600 text-white border-blue-600' : 'border-gray-200 text-gray-600 hover:bg-gray-50'}`}
+                  className={`px-4 py-1.5 rounded-full text-sm font-medium border transition-colors duration-150
+                  ${difficulty === level ? 'bg-[#EC4899] text-white border-[#EC4899]' : 'border-[#E5E7EB] text-[#6B7280] hover:bg-[#FAFAFA]'}`}
                 >
                   {level}
                 </button>
               ))}
             </div>
 
-            <p className="text-sm font-medium text-gray-700 mb-2">Choose a topic</p>
+            <p className="text-sm font-medium text-[#111827] mb-2.5">Choose a topic</p>
             {loadingTopics ? (
               <Loader label="Generating topics..." />
             ) : (
@@ -150,8 +152,8 @@ const GroupDiscussion = () => {
                   <button
                     key={topic}
                     onClick={() => setSelectedTopic(topic)}
-                    className={`w-full text-left px-4 py-2.5 rounded-lg text-sm border transition-colors
-                    ${selectedTopic === topic ? 'border-blue-500 bg-blue-50 text-blue-700' : 'border-gray-200 text-gray-600 hover:bg-gray-50'}`}
+                    className={`w-full text-left px-4 py-2.5 rounded-lg text-sm border transition-all duration-150
+                    ${selectedTopic === topic ? 'border-[#EC4899] bg-[#FFF7FA] text-[#111827]' : 'border-[#E5E7EB] text-[#6B7280] hover:bg-[#FAFAFA]'}`}
                   >
                     {topic}
                   </button>
@@ -159,13 +161,14 @@ const GroupDiscussion = () => {
               </div>
             )}
 
-            <button
+            <Button
+              variant="primary"
               onClick={handleStart}
               disabled={!selectedTopic || starting}
-              className="w-full px-4 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 disabled:opacity-50"
+              className="w-full"
             >
               {starting ? 'Starting...' : 'Start GD'}
-            </button>
+            </Button>
           </div>
         </div>
       </DashboardLayout>
@@ -185,38 +188,31 @@ const GroupDiscussion = () => {
       <DashboardLayout>
         <section className="mb-6 flex items-center justify-between flex-wrap gap-3">
           <div>
-            <h1 className="text-xl font-semibold text-gray-800">GD Summary</h1>
-            <p className="text-sm text-gray-500 mt-1">{gd.topic}</p>
+            <h1 className="text-2xl font-semibold text-[#111827]">GD Summary</h1>
+            <p className="text-sm text-[#6B7280] mt-1">{gd.topic}</p>
           </div>
-          <button
-            onClick={resetAll}
-            className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700"
-          >
+          <Button variant="primary" onClick={resetAll}>
             Start New GD
-          </button>
+          </Button>
         </section>
         <GdSummarySection summary={gd.summary} />
       </DashboardLayout>
     );
   }
 
-  // stage === 'chatting'
   return (
     <DashboardLayout>
-      <div className="flex flex-col h-[calc(100vh-8rem)] bg-gray-50 rounded-xl border border-gray-100 overflow-hidden">
-        <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-gray-100">
+      <div className="flex flex-col h-[calc(100vh-8rem)] bg-[#FAFAFA] rounded-2xl border border-[#E5E7EB] overflow-hidden">
+        <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-[#E5E7EB]">
           <div className="min-w-0">
-            <h2 className="text-sm font-semibold text-gray-700 truncate">{gd.topic}</h2>
-            <p className="text-xs text-gray-400">{gd.difficulty} • Moderator + 3 AI participants</p>
+            <h2 className="text-sm font-semibold text-[#111827] truncate">{gd.topic}</h2>
+            <p className="text-xs text-[#9CA3AF]">{gd.difficulty} • Moderator + 3 AI participants</p>
           </div>
           <div className="flex items-center gap-3 shrink-0">
             <DiscussionTimer durationSeconds={300} />
-            <button
-              onClick={handleEnd}
-              className="px-3 py-1.5 text-xs font-medium text-red-500 border border-red-200 rounded-md hover:bg-red-50"
-            >
+            <Button variant="destructive" onClick={handleEnd} className="!px-3 !py-1.5 text-xs">
               End Discussion
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -225,11 +221,11 @@ const GroupDiscussion = () => {
             <GdChatBubble key={idx} speaker={msg.speaker} speakerName={msg.speakerName} content={msg.content} />
           ))}
           {sending && <GdTypingIndicator />}
-          {error && <p className="text-xs text-red-500 mt-2">{error}</p>}
+          {error && <p className="text-xs text-[#EF4444] mt-2">{error}</p>}
           <div ref={bottomRef} />
         </div>
 
-        <div className="p-3 bg-white border-t border-gray-100 flex gap-2">
+        <div className="p-3 bg-white border-t border-[#E5E7EB] flex gap-2">
           <textarea
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
@@ -237,15 +233,11 @@ const GroupDiscussion = () => {
             disabled={sending}
             placeholder="Share your point..."
             rows={1}
-            className="flex-1 resize-none px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+            className="flex-1 resize-none px-3.5 py-2.5 border border-[#E5E7EB] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#EC4899]/20 focus:border-[#EC4899] disabled:opacity-50"
           />
-          <button
-            onClick={handleSend}
-            disabled={sending || !inputValue.trim()}
-            className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 disabled:opacity-50"
-          >
+          <Button variant="primary" onClick={handleSend} disabled={sending || !inputValue.trim()}>
             Send
-          </button>
+          </Button>
         </div>
       </div>
     </DashboardLayout>

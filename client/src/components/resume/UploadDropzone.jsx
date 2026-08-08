@@ -1,11 +1,13 @@
 import { useRef, useState } from 'react';
+import { UploadCloud } from 'lucide-react';
+import Button from '../ui/Button';
 
 const ACCEPTED_TYPES = [
   'application/pdf',
   'application/msword',
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 ];
-const MAX_SIZE = 5 * 1024 * 1024; // 5MB
+const MAX_SIZE = 5 * 1024 * 1024;
 
 const UploadDropzone = ({ onFileSelect, disabled }) => {
   const [isDragging, setIsDragging] = useState(false);
@@ -13,17 +15,14 @@ const UploadDropzone = ({ onFileSelect, disabled }) => {
 
   const validateAndSelect = (file) => {
     if (!file) return;
-
     if (!ACCEPTED_TYPES.includes(file.type)) {
       onFileSelect(null, 'Only PDF, DOC, or DOCX files are allowed.');
       return;
     }
-
     if (file.size > MAX_SIZE) {
       onFileSelect(null, 'File size must be under 5MB.');
       return;
     }
-
     onFileSelect(file, null);
   };
 
@@ -42,20 +41,19 @@ const UploadDropzone = ({ onFileSelect, disabled }) => {
       }}
       onDragLeave={() => setIsDragging(false)}
       onDrop={handleDrop}
-      className={`border-2 border-dashed rounded-xl p-10 text-center transition-colors
-      ${isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-200 bg-white'}
+      className={`border-2 border-dashed rounded-xl p-12 text-center transition-all duration-200
+      ${isDragging ? 'border-[#EC4899] bg-[#FFF7FA]' : 'border-[#E5E7EB] bg-white'}
       ${disabled ? 'opacity-50 pointer-events-none' : ''}`}
     >
-      <p className="text-gray-600 mb-2">Drag & drop your resume here</p>
-      <p className="text-xs text-gray-400 mb-4">PDF, DOC, or DOCX — max 5MB</p>
+      <div className="w-12 h-12 rounded-full bg-[#FFF7FA] flex items-center justify-center mx-auto mb-4">
+        <UploadCloud size={22} className="text-[#EC4899]" />
+      </div>
+      <p className="text-sm font-medium text-[#111827] mb-1">Drag & drop your resume here</p>
+      <p className="text-xs text-[#6B7280] mb-5">PDF, DOC, or DOCX — max 5MB</p>
 
-      <button
-        type="button"
-        onClick={() => inputRef.current?.click()}
-        className="px-4 py-2 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700"
-      >
+      <Button variant="secondary" type="button" onClick={() => inputRef.current?.click()}>
         Browse File
-      </button>
+      </Button>
 
       <input
         ref={inputRef}

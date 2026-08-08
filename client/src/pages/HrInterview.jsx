@@ -4,11 +4,12 @@ import ChatBubble from '../components/interview/ChatBubble';
 import TypingIndicator from '../components/interview/TypingIndicator';
 import SummarySection from '../components/interview/SummarySection';
 import Loader from '../components/ui/Loader';
-import ErrorMessage from '../components/ui/ErrorMessage';
+import Button from '../components/ui/Button';
+import Alert from '../components/ui/Alert';
 import api from '../api/axios';
 
 const HrInterview = () => {
-  const [stage, setStage] = useState('landing'); // landing | chatting | ending | summary | error
+  const [stage, setStage] = useState('landing');
   const [interview, setInterview] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [sending, setSending] = useState(false);
@@ -16,9 +17,7 @@ const HrInterview = () => {
   const [error, setError] = useState(null);
   const bottomRef = useRef(null);
 
-  const scrollToBottom = () => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
+  const scrollToBottom = () => bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
 
   useEffect(() => {
     scrollToBottom();
@@ -40,12 +39,10 @@ const HrInterview = () => {
 
   const handleSend = async () => {
     if (!inputValue.trim() || sending) return;
-
     const answer = inputValue.trim();
     setInputValue('');
     setSending(true);
 
-    // Optimistically show the user's message immediately
     setInterview((prev) => ({
       ...prev,
       messages: [...prev.messages, { role: 'user', content: answer }],
@@ -84,20 +81,16 @@ const HrInterview = () => {
   if (stage === 'landing') {
     return (
       <DashboardLayout>
-        <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-10 text-center max-w-lg mx-auto">
-          <h1 className="text-xl font-semibold text-gray-800 mb-2">AI HR Interview</h1>
-          <p className="text-sm text-gray-500 mb-6">
+        <div className="bg-white rounded-2xl border border-[#E5E7EB] shadow-sm p-12 text-center max-w-lg mx-auto">
+          <h1 className="text-2xl font-semibold text-[#111827] mb-2">AI HR Interview</h1>
+          <p className="text-sm text-[#6B7280] mb-8">
             Practice a realistic HR interview with an AI interviewer. Answer honestly —
             you'll get detailed feedback at the end.
           </p>
-          {error && <p className="text-sm text-red-500 mb-4">{error}</p>}
-          <button
-            onClick={handleStart}
-            disabled={starting}
-            className="px-6 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 disabled:opacity-50"
-          >
+          {error && <Alert variant="error">{error}</Alert>}
+          <Button variant="primary" onClick={handleStart} disabled={starting}>
             {starting ? 'Starting...' : 'Start Interview'}
-          </button>
+          </Button>
         </div>
       </DashboardLayout>
     );
@@ -115,34 +108,30 @@ const HrInterview = () => {
     return (
       <DashboardLayout>
         <section className="mb-6 flex items-center justify-between flex-wrap gap-3">
-          <h1 className="text-xl font-semibold text-gray-800">Interview Summary</h1>
-          <button
+          <h1 className="text-2xl font-semibold text-[#111827]">Interview Summary</h1>
+          <Button
+            variant="primary"
             onClick={() => {
               setInterview(null);
               setStage('landing');
             }}
-            className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700"
           >
             Start New Interview
-          </button>
+          </Button>
         </section>
         <SummarySection summary={interview.summary} />
       </DashboardLayout>
     );
   }
 
-  // stage === 'chatting'
   return (
     <DashboardLayout>
-      <div className="flex flex-col h-[calc(100vh-8rem)] bg-gray-50 rounded-xl border border-gray-100 overflow-hidden">
-        <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-gray-100">
-          <h2 className="text-sm font-semibold text-gray-700">HR Interview in progress</h2>
-          <button
-            onClick={handleEnd}
-            className="px-3 py-1.5 text-xs font-medium text-red-500 border border-red-200 rounded-md hover:bg-red-50"
-          >
+      <div className="flex flex-col h-[calc(100vh-8rem)] bg-[#FAFAFA] rounded-2xl border border-[#E5E7EB] overflow-hidden">
+        <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-[#E5E7EB]">
+          <h2 className="text-sm font-semibold text-[#111827]">HR Interview in progress</h2>
+          <Button variant="destructive" onClick={handleEnd} className="!px-3 !py-1.5 text-xs">
             End Interview
-          </button>
+          </Button>
         </div>
 
         <div className="flex-1 overflow-y-auto p-4">
@@ -150,11 +139,11 @@ const HrInterview = () => {
             <ChatBubble key={idx} role={msg.role} content={msg.content} />
           ))}
           {sending && <TypingIndicator />}
-          {error && <p className="text-xs text-red-500 mt-2">{error}</p>}
+          {error && <p className="text-xs text-[#EF4444] mt-2">{error}</p>}
           <div ref={bottomRef} />
         </div>
 
-        <div className="p-3 bg-white border-t border-gray-100 flex gap-2">
+        <div className="p-3 bg-white border-t border-[#E5E7EB] flex gap-2">
           <textarea
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
@@ -162,15 +151,11 @@ const HrInterview = () => {
             disabled={sending}
             placeholder="Type your answer..."
             rows={1}
-            className="flex-1 resize-none px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+            className="flex-1 resize-none px-3.5 py-2.5 border border-[#E5E7EB] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#EC4899]/20 focus:border-[#EC4899] disabled:opacity-50"
           />
-          <button
-            onClick={handleSend}
-            disabled={sending || !inputValue.trim()}
-            className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 disabled:opacity-50"
-          >
+          <Button variant="primary" onClick={handleSend} disabled={sending || !inputValue.trim()}>
             Send
-          </button>
+          </Button>
         </div>
       </div>
     </DashboardLayout>

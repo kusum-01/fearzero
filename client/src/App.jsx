@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard';
 import ResumeUpload from './pages/ResumeUpload';
 import ResumeAnalysis from './pages/ResumeAnalysis';
 import HrInterview from './pages/HrInterview';
+import Profile from './pages/Profile';
 import GroupDiscussion from './pages/GroupDiscussion';
 import ProgressAnalytics from './pages/ProgressAnalytics';
 
@@ -50,6 +51,14 @@ function App() {
             }
           />
           <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/gd"
             element={
               <ProtectedRoute>
@@ -65,7 +74,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="*" element={<Navigate to="/login" replace />} />
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

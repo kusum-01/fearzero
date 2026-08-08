@@ -1,3 +1,5 @@
+import ScoreRing from '../analysis/ScoreRing';
+
 const SummarySection = ({ summary }) => {
   const scores = [
     { label: 'Overall Score', value: summary.overallScore },
@@ -8,32 +10,27 @@ const SummarySection = ({ summary }) => {
   ];
 
   const lists = [
-    { title: 'Strengths', icon: '✅', items: summary.strengths },
-    { title: 'Areas for Improvement', icon: '⚠️', items: summary.areasForImprovement },
-    { title: 'Suggested Better Answers', icon: '💡', items: summary.suggestedBetterAnswers },
+    { title: 'Strengths', items: summary.strengths },
+    { title: 'Areas for Improvement', items: summary.areasForImprovement },
+    { title: 'Suggested Better Answers', items: summary.suggestedBetterAnswers },
   ];
 
   return (
     <div className="space-y-6">
       <section className="grid grid-cols-2 md:grid-cols-5 gap-3">
         {scores.map((s) => (
-          <div key={s.label} className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 text-center">
-            <p className="text-2xl font-bold text-blue-600">{s.value}</p>
-            <p className="text-xs text-gray-500 mt-1">{s.label}</p>
-          </div>
+          <ScoreRing key={s.label} label={s.label} score={s.value} />
         ))}
       </section>
 
       <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {lists.map((list) => (
-          <div key={list.title} className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-            <h3 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
-              <span>{list.icon}</span> {list.title}
-            </h3>
-            <ul className="space-y-2">
+          <div key={list.title} className="bg-white rounded-xl border border-[#E5E7EB] shadow-sm p-6">
+            <h3 className="text-sm font-semibold text-[#111827] mb-4">{list.title}</h3>
+            <ul className="space-y-2.5">
               {(list.items || []).map((item, idx) => (
-                <li key={idx} className="text-sm text-gray-600 flex gap-2">
-                  <span className="text-gray-300">•</span>
+                <li key={idx} className="text-sm text-[#374151] flex gap-2 leading-relaxed">
+                  <span className="text-[#D1D5DB] mt-0.5">•</span>
                   <span>{item}</span>
                 </li>
               ))}
@@ -42,9 +39,9 @@ const SummarySection = ({ summary }) => {
         ))}
       </section>
 
-      <section className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-        <h3 className="text-sm font-semibold text-gray-700 mb-2">Final AI Feedback</h3>
-        <p className="text-sm text-gray-600 leading-relaxed">{summary.finalFeedback}</p>
+      <section className="bg-white rounded-xl border border-[#E5E7EB] shadow-sm p-6">
+        <h3 className="text-sm font-semibold text-[#111827] mb-2">Final AI Feedback</h3>
+        <p className="text-sm text-[#374151] leading-relaxed">{summary.finalFeedback}</p>
       </section>
     </div>
   );

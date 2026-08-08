@@ -11,14 +11,14 @@ const SkillRadarChart = ({ data }) => {
   ];
 
   return (
-    <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-      <h3 className="text-sm font-semibold text-gray-700 mb-4">Skill Overview</h3>
+    <div className="bg-white rounded-xl border border-[#E5E7EB] shadow-sm p-6">
+      <h3 className="text-sm font-semibold text-[#111827] mb-4">Skill Overview</h3>
       <ResponsiveContainer width="100%" height={280}>
         <RadarChart data={chartData}>
-          <PolarGrid stroke="#f1f5f9" />
-          <PolarAngleAxis dataKey="skill" tick={{ fontSize: 11 }} />
-          <PolarRadiusAxis domain={[0, 100]} tick={{ fontSize: 10 }} />
-          <Radar dataKey="value" stroke="#2563eb" fill="#2563eb" fillOpacity={0.3} />
+          <PolarGrid stroke="#F3F4F6" />
+          <PolarAngleAxis dataKey="skill" tick={{ fontSize: 11, fill: '#6B7280' }} />
+          <PolarRadiusAxis domain={[0, 100]} tick={{ fontSize: 10, fill: '#9CA3AF' }} />
+          <Radar dataKey="value" stroke="#EC4899" fill="#EC4899" fillOpacity={0.25} />
         </RadarChart>
       </ResponsiveContainer>
     </div>

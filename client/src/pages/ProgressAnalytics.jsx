@@ -64,26 +64,15 @@ const ProgressAnalytics = () => {
     );
   }
 
-  const resumeChartData = history.resumeHistory.map((r, idx) => ({
-    label: `#${idx + 1}`,
-    score: r.overallScore,
-  }));
-
-  const interviewChartData = history.interviewHistory.map((i, idx) => ({
-    label: `#${idx + 1}`,
-    score: i.summary?.overallScore,
-  }));
-
-  const gdChartData = history.gdHistory.map((g, idx) => ({
-    label: `#${idx + 1}`,
-    score: g.summary?.overallScore,
-  }));
+  const resumeChartData = history.resumeHistory.map((r, idx) => ({ label: `#${idx + 1}`, score: r.overallScore }));
+  const interviewChartData = history.interviewHistory.map((i, idx) => ({ label: `#${idx + 1}`, score: i.summary?.overallScore }));
+  const gdChartData = history.gdHistory.map((g, idx) => ({ label: `#${idx + 1}`, score: g.summary?.overallScore }));
 
   return (
     <DashboardLayout>
       <section className="mb-6">
-        <h1 className="text-xl font-semibold text-gray-800">Progress & Analytics</h1>
-        <p className="text-sm text-gray-500 mt-1">Track your placement preparation journey.</p>
+        <h1 className="text-2xl font-semibold text-[#111827]">Progress & Analytics</h1>
+        <p className="text-sm text-[#6B7280] mt-1">Track your placement preparation journey.</p>
       </section>
 
       <section className="mb-6">
@@ -91,9 +80,9 @@ const ProgressAnalytics = () => {
       </section>
 
       <section className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
-        <ScoreHistoryChart title="Resume Score History" data={resumeChartData} dataKey="score" color="#2563eb" />
-        <ScoreHistoryChart title="HR Interview History" data={interviewChartData} dataKey="score" color="#16a34a" />
-        <ScoreHistoryChart title="GD Performance History" data={gdChartData} dataKey="score" color="#f59e0b" />
+        <ScoreHistoryChart title="Resume Score History" data={resumeChartData} dataKey="score" color="#EC4899" />
+        <ScoreHistoryChart title="HR Interview History" data={interviewChartData} dataKey="score" color="#3B82F6" />
+        <ScoreHistoryChart title="GD Performance History" data={gdChartData} dataKey="score" color="#F59E0B" />
       </section>
 
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">

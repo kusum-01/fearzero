@@ -16,21 +16,21 @@ const WeeklyProgressChart = ({ weeklyData }) => {
     }));
 
   return (
-    <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-      <h3 className="text-sm font-semibold text-gray-700 mb-4">Weekly Activity</h3>
+    <div className="bg-white rounded-xl border border-[#E5E7EB] shadow-sm p-6">
+      <h3 className="text-sm font-semibold text-[#111827] mb-4">Weekly Activity</h3>
       {merged.length === 0 ? (
-        <p className="text-sm text-gray-400 text-center py-10">No activity yet.</p>
+        <p className="text-sm text-[#9CA3AF] text-center py-10">No activity yet.</p>
       ) : (
         <ResponsiveContainer width="100%" height={240}>
           <BarChart data={merged}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-            <XAxis dataKey="week" tick={{ fontSize: 11 }} />
-            <YAxis allowDecimals={false} tick={{ fontSize: 11 }} />
-            <Tooltip />
+            <CartesianGrid strokeDasharray="3 3" stroke="#F3F4F6" />
+            <XAxis dataKey="week" tick={{ fontSize: 11, fill: '#6B7280' }} />
+            <YAxis allowDecimals={false} tick={{ fontSize: 11, fill: '#6B7280' }} />
+            <Tooltip contentStyle={{ borderRadius: 8, border: '1px solid #E5E7EB', fontSize: 12 }} />
             <Legend wrapperStyle={{ fontSize: 12 }} />
-            <Bar dataKey="resume" fill="#2563eb" name="Resume Analyses" />
-            <Bar dataKey="interview" fill="#16a34a" name="HR Interviews" />
-            <Bar dataKey="gd" fill="#f59e0b" name="Group Discussions" />
+            <Bar dataKey="resume" fill="#EC4899" name="Resume Analyses" radius={[4, 4, 0, 0]} />
+            <Bar dataKey="interview" fill="#3B82F6" name="HR Interviews" radius={[4, 4, 0, 0]} />
+            <Bar dataKey="gd" fill="#F59E0B" name="Group Discussions" radius={[4, 4, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       )}

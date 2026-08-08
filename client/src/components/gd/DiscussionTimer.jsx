@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Clock } from 'lucide-react';
 
 const DiscussionTimer = ({ durationSeconds = 300 }) => {
   const [secondsLeft, setSecondsLeft] = useState(durationSeconds);
@@ -15,7 +16,9 @@ const DiscussionTimer = ({ durationSeconds = 300 }) => {
   const isLow = secondsLeft <= 30;
 
   return (
-    <span className={`text-xs font-mono px-2 py-1 rounded-md ${isLow ? 'bg-red-50 text-red-600' : 'bg-gray-100 text-gray-600'}`}>
+    <span className={`flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full
+      ${isLow ? 'bg-[#EF4444]/10 text-[#EF4444]' : 'bg-[#F3F4F6] text-[#6B7280]'}`}>
+      <Clock size={12} />
       {minutes}:{seconds.toString().padStart(2, '0')}
     </span>
   );

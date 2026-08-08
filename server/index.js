@@ -33,8 +33,8 @@ app.use(sanitizeInput);
 
 // Rate limiting — protects auth routes from brute-force attempts
 const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 20,
+  windowMs: 15 * 60 * 1000,
+  max: process.env.NODE_ENV === 'production' ? 20 : 1000,
   message: { success: false, message: 'Too many attempts, please try again later.' },
 });
 app.use('/api/auth', authLimiter);

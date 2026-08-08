@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
+import { CheckCircle2, AlertTriangle, PuzzleIcon, Lightbulb, PenLine, Wrench, Rocket } from 'lucide-react';
 import api from '../api/axios';
 import DashboardLayout from '../components/layout/DashboardLayout';
 import ScoreRing from '../components/analysis/ScoreRing';
 import FeedbackList from '../components/analysis/FeedbackList';
 import Loader from '../components/ui/Loader';
 import ErrorMessage from '../components/ui/ErrorMessage';
+import Alert from '../components/ui/Alert';
+import Button from '../components/ui/Button';
 
 const ResumeAnalysis = () => {
-  const [status, setStatus] = useState('loading'); // loading | error | ready
+  const [status, setStatus] = useState('loading');
   const [analysis, setAnalysis] = useState(null);
   const [analyzing, setAnalyzing] = useState(false);
   const [analyzeError, setAnalyzeError] = useState(null);
@@ -60,26 +63,16 @@ const ResumeAnalysis = () => {
     <DashboardLayout>
       <section className="mb-6 flex items-center justify-between flex-wrap gap-3">
         <div>
-          <h1 className="text-xl font-semibold text-gray-800">Resume Analysis</h1>
-          <p className="text-sm text-gray-500 mt-1">
-            AI-powered feedback based on your uploaded resume.
-          </p>
+          <h1 className="text-2xl font-semibold text-[#111827]">Resume Analysis</h1>
+          <p className="text-sm text-[#6B7280] mt-1">AI-powered feedback based on your uploaded resume.</p>
         </div>
 
-        <button
-          onClick={handleAnalyze}
-          disabled={analyzing}
-          className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 disabled:opacity-50"
-        >
+        <Button variant="primary" onClick={handleAnalyze} disabled={analyzing}>
           {analyzing ? 'Analyzing...' : analysis ? 'Re-analyze Resume' : 'Analyze Resume'}
-        </button>
+        </Button>
       </section>
 
-      {analyzeError && (
-        <div className="mb-4 px-4 py-2 bg-red-50 border border-red-200 text-red-600 text-sm rounded-md">
-          {analyzeError}
-        </div>
-      )}
+      {analyzeError && <Alert variant="error">{analyzeError}</Alert>}
 
       {analyzing && (
         <div className="mb-6">
@@ -88,8 +81,8 @@ const ResumeAnalysis = () => {
       )}
 
       {!analysis && !analyzing && (
-        <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-10 text-center">
-          <p className="text-gray-500">
+        <div className="bg-white rounded-xl border border-[#E5E7EB] shadow-sm p-12 text-center">
+          <p className="text-sm text-[#6B7280]">
             No analysis yet. Upload a resume, then click "Analyze Resume" to get started.
           </p>
         </div>
@@ -103,13 +96,13 @@ const ResumeAnalysis = () => {
           </section>
 
           <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <FeedbackList title="Strengths" items={analysis.strengths} icon="✅" />
-            <FeedbackList title="Weaknesses" items={analysis.weaknesses} icon="⚠️" />
-            <FeedbackList title="Missing Skills" items={analysis.missingSkills} icon="🧩" />
-            <FeedbackList title="Suggested Improvements" items={analysis.suggestedImprovements} icon="💡" />
-            <FeedbackList title="Grammar & Writing Feedback" items={analysis.grammarFeedback} icon="✍️" />
-            <FeedbackList title="Recommended Technologies" items={analysis.recommendedTechnologies} icon="🛠️" />
-            <FeedbackList title="Suggested Projects" items={analysis.suggestedProjects} icon="🚀" />
+            <FeedbackList title="Strengths" items={analysis.strengths} icon={CheckCircle2} tone="#22C55E" />
+            <FeedbackList title="Weaknesses" items={analysis.weaknesses} icon={AlertTriangle} tone="#F59E0B" />
+            <FeedbackList title="Missing Skills" items={analysis.missingSkills} icon={PuzzleIcon} tone="#3B82F6" />
+            <FeedbackList title="Suggested Improvements" items={analysis.suggestedImprovements} icon={Lightbulb} tone="#EC4899" />
+            <FeedbackList title="Grammar & Writing Feedback" items={analysis.grammarFeedback} icon={PenLine} tone="#6B7280" />
+            <FeedbackList title="Recommended Technologies" items={analysis.recommendedTechnologies} icon={Wrench} tone="#3B82F6" />
+            <FeedbackList title="Suggested Projects" items={analysis.suggestedProjects} icon={Rocket} tone="#EC4899" />
           </section>
         </>
       )}
